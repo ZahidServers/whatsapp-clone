@@ -5,7 +5,6 @@ SocketIo Private Chats Groups Channels demonstration
 WhatHappen WhatsApp Clone
 ---
 ## Features
-.
 ---
 Login/Sign Up page: When user first time visits the website i.e when he/she is is not logedin the user is automatically redirected to Login/SignUp page.
 ---
@@ -22,7 +21,6 @@ Search for groups/channels and users: Every user can search for every other user
 Logout:The Site has a Logout feature when a  user clicks on logout all localstorage is first cleared then user is logged out and then redirected to Login/Signup page.
 ---
 ## licencse
-.
 ---
 ### You can download it and use it for free but you cant modify it and you need give all credits to my work aka credits to Mohammed Zahid Imtiyaz Wadiwale.
 --
