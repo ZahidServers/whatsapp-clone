@@ -60,7 +60,7 @@ def search():
             r="c"
         if keyword not in channels and keyword not in userslist:
             return render_template("search.html", error="No Such Group or User")
-        return render_template("search.html", result=r)
+        return render_template("search.html", result=r, keyword=keyword)
     return render_template("search.html")
 @socketio.on('message')
 def handleMessage(msg):
