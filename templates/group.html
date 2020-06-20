@@ -30,15 +30,31 @@
 			padding-right: 0;
 		}
 	</style>
-	<script type="text/javascript" charset="utf-8">
-		var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
-		socket.on('add channel',function(data){
-			console.log("channel recieved:"+data['channel']);
-			const list = document.createElement('li');
-			list.setAttribute("class", "list-group-item");
-			list.setAttribute("href", "../u/"+data['channel']+"");
-			list.innerHTML=`<a style="color:black;text-decoration:none;" href="../u/${data['channel']}">${data['channel']}</a>`;
-			document.querySelector('#channels_lists').append(list);
+	<script type="text/javascript">
+		document.addEventListener("DOMContentLoaded", function(){
+			var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+			socket.on('add channel',function(data){
+				console.log("channel recieved:"+data['channel']);
+				const list = document.createElement('li');
+				list.setAttribute("class", "list-group-item");
+				list.setAttribute("href", "../u/"+data['channel']+"");
+				list.innerHTML=`<a style="color:black;text-decoration:none;" href="../u/${data['channel']}">${data['channel']}</a>`;
+				document.querySelector('#channels_lists').append(list);
+			});
+			function Logout()
+			{
+				localStorage.removeItem("username");
+				localStorage.clear();
+				window.location.href="../login";
+			}
+			document.getElementById("btnnewchannel").addEventListener("click", () => {
+				let new_channel_name=document.querySelector('#newchannel').value;
+				socket.emit('add channel', {'channel': new_channel_name});
+				$(document).ready(function(){
+					$("#createchannel").modal('hide');
+				});
+				document.querySelector('#newchannel').value="";
+			});
 		});
 		function Logout()
 		{
@@ -46,14 +62,6 @@
 			localStorage.clear();
 			window.location.href="../login";
 		}
-		document.getElementById("btnnewchannel").addEventListener("click", () => {
-			let new_channel_name=document.querySelector('#newchannel').value;
-			socket.emit('add channel', {'channel': new_channel_name});
-			$(document).ready(function(){
-				$("#createchannel").modal('hide');
-			});
-			document.querySelector('#newchannel').value="";
-		});
 	</script>
 </head>
 <body>
