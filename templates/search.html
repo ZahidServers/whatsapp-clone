@@ -34,8 +34,17 @@
 		}
 	</style>
 	<script type="text/javascript">
+		if (localStorage.getItem("username") === null) {
+			window.location.href="../login";
+		}
 		function search(){
 			document.getElementById("myForm").submit();
+		}
+		function Logout()
+		{
+			localStorage.removeItem("username");
+			localStorage.clear();
+			window.location.href="../login";
 		}
 	</script>
 </head>
@@ -46,18 +55,18 @@
 			<br>
 			<a style="color:white;" href="">Profile</a>
 			<a style="color:white;" href="">Settings</a>
-			<a style="color:white;" href="">Logout</a>
+			<a style="color:white;" onclick="Logout();" href="#">Logout</a>
 		</button>
 		<br>
 		<ul class="nav nav-tabs nav-justified justify-content-center">
 			<li class="nav-item">
-				<a class="nav-link" href="#">User Chats</a>
+				<a class="nav-link" href="./home">User Chats</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Group Chats</a>
+				<a class="nav-link" href="./groups">Group Chats</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link active" href="#">Search Users/Group</a>
+				<a class="nav-link active" href="./search">Search Users/Group</a>
 			</li>
 		</ul>
 		<br>
@@ -69,6 +78,15 @@
 		    	</div>
 			</div>
 		</form>
+		{% if keyword %}
+		<div class="card" style="width: 100%;">
+			<ul id="channels_lists" class="list-group list-group-flush">
+				<a style="color:black;text-decoration:none;cursor: pointer;" id="{{ keyword }}" href="../{{ result }}/{{ keyword }}">
+					<li class="list-group-item">{{ keyword }}</li>
+				</a>
+			</ul>
+		</div>
+		{% endif %}
 	</nav>
 </body>
 </html>
