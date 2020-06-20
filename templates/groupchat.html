@@ -56,7 +56,7 @@
 		}
 		var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 		socket.on('connect',function(){
-			document.querySelector('#message').append('<i align="center">connected</i>');
+			document.querySelector('#message').append('connected');
 			document.querySelector('#send').onclick = function() {
 				var susername = localStorage.getItem("username");
 				const d = new Date();
