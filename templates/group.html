@@ -30,7 +30,7 @@
 			padding-right: 0;
 		}
 	</style>
-	<script type="text/javascript">
+	<script type="text/javascript" charset="utf-8">
 		var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 		socket.on('add channel',function(data){
 			console.log("channel recieved:"+data['channel']);
@@ -63,7 +63,7 @@
 			<br>
 			<a style="color:white;" href="">Settings</a>
 			<a style="color:white;" data-toggle="modal" data-target="#createchannel" href="#">Add New Group</a>
-			<a style="color:white;" href="">Logout</a>
+			<a style="color:white;" onclick="Logout();" href="#">Logout</a>
 		</button>
 		<br>
 		<ul class="nav nav-tabs nav-justified justify-content-center">
