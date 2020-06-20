@@ -1,0 +1,149 @@
+<!--This page is coded by Mohammed Zahid Wadiwale and is intellectual property of Mohammed Zahid Wadiwale-->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+	<style type="text/css">
+		nav{
+			background-color: #d5adc8;
+			background-image: linear-gradient(315deg, #d5adc8 0%, #ff8489 74%);
+			color:white;
+		}
+		.nav-tabs li a{
+			color:white;
+		}
+		.nav-tabs{
+			text-align: center;
+			width: 100%;
+		}
+
+		.navbar{
+			padding-bottom: 0;
+			padding-left: 0;
+			padding-right: 0;
+		}
+		html {
+			position: relative;
+			min-height: 100%;
+			overflow-x: hidden;
+		}
+		body {
+			margin-bottom: 60px;
+			overflow-x: hidden;
+		}
+		.footer {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			height: 60px; /* Set the fixed height of the footer here */
+			background-color: #d5adc8;
+			background-image: linear-gradient(315deg, #d5adc8 0%, #ff8489 74%);
+			overflow-x: hidden;
+		}
+
+	</style>
+	<script type="text/javascript">
+		if (localStorage.getItem("username") === null) {
+			window.location.href="../login";
+		}
+		var thisuserf=localStorage.getItem("username");
+		var thatusern="{{ name }}";
+		window.addEventListener('DOMContentLoaded', (event) => {
+			var thisuser=localStorage.getItem("username");
+			var thatuser="{{ name }}";
+			var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+			socket.emit('username', thisuser);
+			socket.emit('generator', {'first' : thisuser, 'second' : thatuser});
+			socket.on('recieve_old_chat',function(msg){
+				var message_old=msg;
+				var oldmsg=message_old.includes(thisuser+":-");
+				const list = document.createElement('div');
+				if(oldmsg==true)
+				{
+					list.innerHTML=`<div class="p-1 card bg-primary rounded w-75 float-right z-depth-0 mb-1"><div class="card-body text-white">${msg}</div></div>`;
+				}
+				else{
+					list.innerHTML=`<div class="p-1 card bg-light rounded w-75 z-depth-0 mb-2"><div class="card-body">${msg}</div></div>`;
+				}
+				document.querySelector('#message-box-user').append(list);
+			});
+			socket.on('new_private_message',function(msg){
+				console.log("variable collected:"+msg);
+				if(msg['first']==thisuserf && msg['second']==thatusern){
+					var message_new=msg['message'];
+					var newmsg=message_new.includes(thisuser+":-");
+					const list = document.createElement('div');
+					if(newmsg==true)
+					{
+						list.innerHTML=`<div class="p-1 card bg-primary rounded w-75 float-right z-depth-0 mb-1"><div class="card-body text-white">${msg['message']}</div></div>`;
+					}
+					else{
+						list.innerHTML=`<div class="p-1 card bg-light rounded w-75 z-depth-0 mb-2"><div class="card-body">${msg['message']}</div></div>`;
+					}
+					document.querySelector('#message-box-user').append(list);
+				}
+				if(msg['first']==thatusern && msg['second']==thisuserf){
+					var message_new=msg['message'];
+					var newmsg=message_new.includes(thisuser+":-");
+					const list = document.createElement('div');
+					if(newmsg==true)
+					{
+						list.innerHTML=`<div class="p-1 card bg-primary rounded w-75 float-right z-depth-0 mb-1"><div class="card-body text-white">${msg['message']}</div></div>`;
+					}
+					else{
+						list.innerHTML=`<div class="p-1 card bg-light rounded w-75 z-depth-0 mb-2"><div class="card-body">${msg['message']}</div></div>`;
+					}
+					document.querySelector('#message-box-user').append(list);
+				}
+			});
+			$('#snd').on('click', function() {
+				var recipient = "{{ name }}";
+				const d = new Date();
+				const hours=d.getHours();
+				const minutes=d.getMinutes();
+				const seconds=d.getSeconds();
+				const time= hours+":"+minutes+":"+seconds;
+				const day=d.getDate();
+				const month=d.getMonth();
+				const year=d.getFullYear();
+				const timestamp=time+ "/"+day+"/"+month+"/"+year;
+				var message_to_send = thisuser + ":- <br><p>" + document.querySelector('#msg').value + "<br>" + timestamp + "</p>";
+				socket.emit('private_message', {'username' : recipient, 'message' : message_to_send, 'sender' : thisuser});
+				document.querySelector('#msg').value=""
+			});
+		});
+	</script>
+</head>
+<body>
+	<nav class="navbar sticky-top justify-content-center">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<a style="color:white;text-decoration: none;" href="#"><h4>WhatHappen</h4></a>
+			<br>
+			<a style="color:white;" href="../../home">Go Back</a> 
+			<a style="color:white;" href="#">{{ name }}</a>
+		</button>
+	</nav>
+	<main>
+		<div style="padding: 2px;margin: 2px;" id="message-box-user" class="container-fluid">
+		</div>
+	</main>
+	<footer class="footer">
+		<div style="margin: 0;padding-left: 0;padding-right: 0;padding-top: 1px;" class="container-fluid">
+			<div class="input-group md-form form-sm form-2 pl-0">
+				<input class="form-control my-0 py-1 red-border" id="msg" type="text" placeholder="Send Message" aria-label="Messagebar">
+				<div class="input-group-append">
+					<button class="input-group-text red lighten-3" id="snd"><i class="fa fa-paper-plane"
+			        aria-hidden="true"></i></button>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>

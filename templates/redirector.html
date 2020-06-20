@@ -1,0 +1,18 @@
+<!--This page is coded by Mohammed Zahid Wadiwale and is intellectual property of Mohammed Zahid Wadiwale-->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Redirecting</title>
+	<script type="text/javascript">
+		var username="{{ username }}";
+		window.localStorage.setItem('username', username);
+		window.location.href="../../home";
+		setTimeout(function(){
+            window.location.href = '../../home';
+         }, 5000);
+	</script>
+</head>
+<body style="background-color:gray;">
+	<h1 align="center"><b>Redirecting you to homepage. If not Redirected within 5s <a href="../../home">click here</a></b></h1>
+</body>
+</html>
