@@ -70,7 +70,7 @@
 			</li>
 		</ul>
 		<br>
-		<form id="myForm">
+		<form id="myForm" id="post">
 			<div class="input-group md-form form-sm form-2 pl-0">
 				<input class="form-control my-0 py-1 red-border" name="search" id="search" type="text" placeholder="Search for Usernames/Group" aria-label="Search">
 				<div class="input-group-append">
@@ -78,15 +78,24 @@
 		    	</div>
 			</div>
 		</form>
-		{% if keyword %}
-		<div class="card" style="width: 100%;">
-			<ul id="channels_lists" class="list-group list-group-flush">
-				<a style="color:black;text-decoration:none;cursor: pointer;" id="{{ keyword }}" href="../{{ result }}/{{ keyword }}">
-					<li class="list-group-item">{{ keyword }}</li>
-				</a>
-			</ul>
-		</div>
-		{% endif %}
 	</nav>
+	{% if keyword %}
+	<div class="card" style="width: 100%;">
+		<ul id="channels_lists" class="list-group list-group-flush">
+			<a style="color:black;text-decoration:none;cursor: pointer;" id="{{ keyword }}" href="../{{ result }}/{{ keyword }}">
+				<li class="list-group-item">{{ keyword }}</li>
+			</a>
+		</ul>
+	</div>
+	{% endif %}
+	{% if error %}
+	<div class="card" style="width: 100%;">
+		<ul id="channels_lists" class="list-group list-group-flush">
+			<a style="color:black;text-decoration:none;cursor: pointer;" id="{{ error }}" >
+				<li class="list-group-item">{{ error }}</li>
+			</a>
+		</ul>
+	</div>
+	{% endif %}
 </body>
 </html>
